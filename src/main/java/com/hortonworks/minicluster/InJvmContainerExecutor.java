@@ -176,7 +176,7 @@ public class InJvmContainerExecutor extends DefaultContainerExecutor {
    */
   private void doLaunchContainer(Class<?> containerClass, Method mainMethod, String[] arguments) throws Exception {
     if (logger.isInfoEnabled()) {
-      logger.info("****** Launching container for " + containerClass.getName()
+      logger.info("Launching container for " + containerClass.getName()
           + " with arguments: " + Arrays.asList(arguments));
     }
 
