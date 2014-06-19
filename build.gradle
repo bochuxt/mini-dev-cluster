@@ -1,0 +1,47 @@
+description = 'Mini DEV YARN/DFS cluster'
+
+group = 'com.hortonworks'
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'java'
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
+junitVersion = '4.8.2'
+log4jVersion = '1.2.12'
+slf4jVersion = '1.7.2'
+hadoopVersion = '2.4.0'
+
+repositories {
+    mavenCentral()
+	mavenLocal();
+}
+
+dependencies {
+	compile ("org.springframework:spring-core:4.0.5.RELEASE") {
+		exclude group: "org.springframework", module: "spring-beans"
+	}
+		
+	compile "net.sf.jopt-simple:jopt-simple:4.6"
+	
+	compile "org.apache.hadoop:hadoop-yarn-client:$hadoopVersion"
+	compile "org.apache.hadoop:hadoop-mapreduce-client-shuffle:$hadoopVersion"
+	compile "org.apache.hadoop:hadoop-common:$hadoopVersion"
+	compile "org.apache.hadoop:hadoop-hdfs:$hadoopVersion"
+	    
+	compile "org.apache.hadoop:hadoop-common:$hadoopVersion:tests"
+	compile "org.apache.hadoop:hadoop-hdfs:$hadoopVersion:tests"
+	compile "org.apache.hadoop:hadoop-common:$hadoopVersion:test-sources"
+	compile "org.apache.hadoop:hadoop-hdfs:$hadoopVersion:test-sources"
+	  
+	compile "org.apache.hadoop:hadoop-yarn-server-tests:$hadoopVersion:tests"
+	compile "org.apache.hadoop:hadoop-yarn-server-resourcemanager:$hadoopVersion"
+	
+	testCompile "junit:junit-dep:$junitVersion"
+}
+
+task wrapper(type: Wrapper) {
+    description = 'Generates gradlew[.bat] scripts'
+}
+
