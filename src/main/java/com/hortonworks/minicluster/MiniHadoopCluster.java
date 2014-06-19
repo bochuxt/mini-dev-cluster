@@ -263,6 +263,8 @@ public class MiniHadoopCluster extends CompositeService {
         this.getConfig().get("yarn.resourcemanager.hostname") + ":0");
       config.set(YarnConfiguration.NM_LOCALIZER_ADDRESS,
         this.getConfig().get("yarn.resourcemanager.hostname") + ":0");
+      WebAppUtils.setNMWebAppHostNameAndPort(config,
+        this.getConfig().get("yarn.resourcemanager.hostname"), 0);
 
       // Disable resource checks by default
       if (!config.getBoolean(
