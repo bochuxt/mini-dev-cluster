@@ -146,7 +146,7 @@ public class InJvmContainerExecutor extends DefaultContainerExecutor {
       return -1;
     }
     finally {
-      logger.info("Removing up symlinks");
+      logger.info("Removing symlinks");
       this.cleanUp();
     }
     return 0;

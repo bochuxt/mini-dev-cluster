@@ -11,7 +11,7 @@ Once cloned, navigate to the project's root `cd mini-dev-cluster` and follow the
 
 This project uses _Gradle_ as its build and dependency management (see http://www.gradle.org/). _Gradle_ is self-provisioning build framework which means you don't have to have _Gradle_ installed to follow the rest of the procedure. 
 
-*_BUILD for development_*:
+_**BUILD for development**_:
 
 Depending on the IDE you are using execute the following _gradle_ script.
 
@@ -30,6 +30,19 @@ For example in Eclipse follow this procedure:
 	File -> Import -> General -> Existing Project Into Workspace -> browse to the root of the project and click Finish
 > NOTE: You don't have to import projects as Gradle and/or Maven project. The `./gradlew clean eclipse/idea` command will take care of generating all the necessary IDE-native artifacts so you can import it as Eclipse/Gradle project and not deal with wrong plugin versions of one or another.
 
+==
+
+#### START MINI CLUSTER
+
+##### IDE:
+
+	Simply execute _com.hortonworks.minicluster.StartMiniHadoopCluster_
+	
+##### Command line
+
+	./gradlew clean installApp 
+	build/install/mini-dev-cluster/bin/mini-dev-cluster
+	
 ==
 
 [_**Core Features**_](https://github.com/hortonworks/mini-dev-cluster/wiki/Core-Features)

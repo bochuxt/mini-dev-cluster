@@ -5,6 +5,8 @@ group = 'com.hortonworks'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'java'
+apply plugin:'application'
+
 sourceCompatibility=1.6
 targetCompatibility=1.6
 
@@ -12,6 +14,10 @@ junitVersion = '4.8.2'
 log4jVersion = '1.2.12'
 slf4jVersion = '1.7.2'
 hadoopVersion = '2.4.0'
+
+applicationDefaultJvmArgs = ["-Xmx2048m", "-XX:MaxPermSize=256m"]
+
+mainClassName="com.hortonworks.minicluster.StartMiniHadoopCluster"
 
 repositories {
     mavenCentral()
