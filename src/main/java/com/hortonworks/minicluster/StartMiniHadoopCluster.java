@@ -1,15 +1,27 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.hortonworks.minicluster;
 
 import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.hdfs.MiniDFSCluster;
-import org.apache.hadoop.yarn.conf.YarnConfiguration;
-import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler;
-import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler;
 
 /**
  *
@@ -22,7 +34,9 @@ public class StartMiniHadoopCluster {
 
   /**
    * MAKE SURE to start with enough memory -Xmx2048m -XX:MaxPermSize=256
-   * @param args
+   *
+   * Will start a two node Hadoop DFS/YARN cluster
+   *
    */
   public static void main(String[] args) throws Exception {
     System.out.println("=============== Starting TEZ MINI CLUSTER ===============");
@@ -30,21 +44,6 @@ public class StartMiniHadoopCluster {
 
     logger.info("Starting with " + nodeCount + " nodes");
 
-    Configuration configuration = new Configuration();
-    configuration.setClass(YarnConfiguration.RM_SCHEDULER, FifoScheduler.class, ResourceScheduler.class);
-    configuration.set(MiniDFSCluster.HDFS_MINIDFS_BASEDIR, "target/MINI_DFS_CLUSTER/data");
-    final MiniDFSCluster dfsCluster =
-        new MiniDFSCluster.Builder(configuration).numDataNodes(nodeCount)
-          .nameNodePort(55555).build();
-
-    FileSystem fs = dfsCluster.getFileSystem();
-    System.out.println("Created default FileSystem at: " + fs.getUri().toString());
-
-    configuration.set("fs.defaultFS", fs.getUri().toString()); // use HDFS
-    configuration.setInt("yarn.nodemanager.delete.debug-delay-sec", 20000);
-
-    YarnConfiguration yarnConfig = new YarnConfiguration();
-    @SuppressWarnings("resource")
     final MiniHadoopCluster yarnCluster =
         new MiniHadoopCluster("MINI_YARN_CLUSTER", nodeCount);
 
@@ -52,24 +51,20 @@ public class StartMiniHadoopCluster {
       @Override
       public void run() {
         yarnCluster.stop();
-        dfsCluster.shutdown();
         System.out.println("=============== Stopped TEZ MINI CLUSTER ===============");
       }
     });
 
     try {
-      yarnCluster.init(new YarnConfiguration(yarnConfig));
       yarnCluster.start();
-      System.out.println("######## MINI CLUSTER started on " + new Date() + ". UI tracking is available at "
-          + "http://localhost:8080/node/allApplications ########");
+      System.out.println("######## MINI CLUSTER started on " + new Date() + ". ########");
       System.out.println("\t - YARN log and work directories are available in target/MINI_YARN_CLUSTER");
       System.out.println("\t - DFS log and work directories are available in target/MINI_DFS_CLUSTER");
     }
     catch (Exception e) {
       // won't actually shut down process. Need to see what's going on
       logger.error("Failed to start mini cluster", e);
-      yarnCluster.stop();
-      dfsCluster.shutdown();
+      yarnCluster.close();
     }
   }
 }

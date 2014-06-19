@@ -25,6 +25,11 @@ import java.net.URL;
  */
 public class ByteCodeUtils {
 
+  /**
+   *
+   * @param clazz
+   * @return
+   */
   public static boolean hasSystemExit(Class<?> clazz){
     URL classLocationUrl = clazz.getProtectionDomain().getCodeSource().getLocation();
     System.out.println(classLocationUrl.getFile());
@@ -53,5 +58,4 @@ public class ByteCodeUtils {
     }
     return false;
   }
-
 }
