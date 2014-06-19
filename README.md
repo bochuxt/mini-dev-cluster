@@ -36,12 +36,12 @@ For example in Eclipse follow this procedure:
 
 ##### IDE:
 
-	Simply execute _com.hortonworks.minicluster.StartMiniHadoopCluster_
+	Simply execute com.hortonworks.minicluster.StartMiniHadoopCluster
 	
 ##### Command line
 
-	./gradlew clean installApp 
-	build/install/mini-dev-cluster/bin/mini-dev-cluster
+	shell> ./gradlew clean installApp 
+	shell> build/install/mini-dev-cluster/bin/mini-dev-cluster
 	
 ==
 
