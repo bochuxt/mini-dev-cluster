@@ -30,6 +30,8 @@ For example in Eclipse follow this procedure:
 	File -> Import -> General -> Existing Project Into Workspace -> browse to the root of the project and click Finish
 > NOTE: You don't have to import projects as Gradle and/or Maven project. The `./gradlew clean eclipse/idea` command will take care of generating all the necessary IDE-native artifacts so you can import it as Eclipse/Gradle project and not deal with wrong plugin versions of one or another.
 
- 
+==
+
+[_**Core Features**_](https://github.com/hortonworks/mini-dev-cluster/wiki/Core-Features)
 
 **_This is an evolving work in progress so more updates (code and documentation) will be coming soon_**
