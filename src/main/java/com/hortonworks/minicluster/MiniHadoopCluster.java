@@ -21,6 +21,7 @@ package com.hortonworks.minicluster;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -93,6 +94,12 @@ public class MiniHadoopCluster extends CompositeService {
     this.configuration = new YarnConfiguration(new Configuration());
     this.configuration.setClass(YarnConfiguration.RM_SCHEDULER, FifoScheduler.class, ResourceScheduler.class);
     this.configuration.set(MiniDFSCluster.HDFS_MINIDFS_BASEDIR, "target/MINI_DFS_CLUSTER/data");
+    try {
+      FileUtils.deleteDirectory(MiniHadoopCluster.this.testWorkDir);
+    }
+    catch (Exception e) {
+      logger.warn("Failed to remove 'target' directory", e);
+    }
   }
 
   @Override
