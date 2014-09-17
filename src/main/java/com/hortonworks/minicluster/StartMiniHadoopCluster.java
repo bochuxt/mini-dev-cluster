@@ -22,6 +22,7 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.fs.AbstractFileSystem;
 
 /**
  *
@@ -31,6 +32,7 @@ import org.apache.commons.logging.LogFactory;
 public class StartMiniHadoopCluster {
 
   private static final Log logger = LogFactory.getLog(StartMiniHadoopCluster.class);
+  private final static Class c = AbstractFileSystem.class;
 
   /**
    * MAKE SURE to start with enough memory -Xmx2048m -XX:MaxPermSize=256
@@ -39,7 +41,7 @@ public class StartMiniHadoopCluster {
    *
    */
   public static void main(String[] args) throws Exception {
-    System.out.println("=============== Starting TEZ MINI CLUSTER ===============");
+    System.out.println("=============== Starting YARN/HDFS MINI CLUSTER ===============");
     int nodeCount = 2;
 
     logger.info("Starting with " + nodeCount + " nodes");
@@ -51,7 +53,7 @@ public class StartMiniHadoopCluster {
       @Override
       public void run() {
         yarnCluster.stop();
-        System.out.println("=============== Stopped TEZ MINI CLUSTER ===============");
+        System.out.println("=============== Stopped YARN/HDFS MINI CLUSTER ===============");
       }
     });
 

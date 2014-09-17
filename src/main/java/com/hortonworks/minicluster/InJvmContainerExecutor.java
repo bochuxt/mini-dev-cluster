@@ -18,6 +18,7 @@ package com.hortonworks.minicluster;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -34,10 +35,12 @@ import java.util.Set;
 import java.util.concurrent.locks.LockSupport;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.security.UserGroupInformation;
+import org.apache.hadoop.yarn.api.ApplicationConstants.Environment;
 import org.apache.hadoop.yarn.api.records.ContainerId;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hadoop.yarn.server.nodemanager.ContainerExecutor;
@@ -118,12 +121,12 @@ public class InJvmContainerExecutor extends DefaultContainerExecutor {
    * launch Container
    */
   private int doLaunch(Container container, Path containerWorkDir) {
+	Map<String, String> environment = container.getLaunchContext().getEnvironment();
+	EnvironmentUtils.putAll(environment);
+	
     Set<URL> additionalClassPathUrls = this.filterAndBuildUserClasspath(container);
 
     ExecJavaCliParser javaCliParser = this.createExecCommandParser(containerWorkDir.toString());
-
-    Map<String, String> environment = container.getLaunchContext().getEnvironment();
-    EnvironmentUtils.putAll(environment);
 
     UserGroupInformation.setLoginUser(null);
     try {
@@ -338,6 +341,21 @@ public class InJvmContainerExecutor extends DefaultContainerExecutor {
       lf.setAccessible(true);
       localizedResources = (Map<Path, List<String>>) lf.get(container);
       Set<Path> paths = localizedResources.keySet();
+      // Needed for Tez
+      for (Path path : paths) {
+		if (path.toString().endsWith("tez-conf.pb") || path.toString().endsWith("tez-dag.pb")){
+			File sourceFile = new File(path.toUri());
+			
+			File targetFile = new File(System.getenv(Environment.PWD.name()) + "/" + sourceFile.getName());
+			FileUtils.copyFile(sourceFile, targetFile);
+
+//			System.out.println("######## Copied file: " + targetFile);
+//			FileInputStream fis = new FileInputStream(new File(System.getenv(Environment.PWD.name()), targetFile.getName()));
+//			System.out.println(fis.available());
+//			fis.close();
+//			break;
+		}
+	  }
       return paths;
     }
     catch (Exception e) {

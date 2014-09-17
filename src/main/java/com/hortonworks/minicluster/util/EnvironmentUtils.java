@@ -40,7 +40,7 @@ public class EnvironmentUtils {
 		updateEnvironment(environemnt);
 	}
 	
-	public static void putAll(Map<String, String> additionalEnvironment) {
+	public static synchronized void putAll(Map<String, String> additionalEnvironment) {
 		Map<String, String> environemnt = new HashMap<String, String>(System.getenv());
 		environemnt.putAll(additionalEnvironment);
 		updateEnvironment(environemnt);

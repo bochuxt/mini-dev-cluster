@@ -18,6 +18,10 @@
      <value>1</value>  
   </property>
   <property>       
+     <name>dfs.block.size</name>       
+     <value>67108864</value>  
+  </property>
+  <property>       
      <name>dfs.namenode.service.handler.count</name>       
      <value>4</value>  
   </property>

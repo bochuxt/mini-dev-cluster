@@ -33,7 +33,7 @@ public class ByteCodeUtils {
   public static boolean hasSystemExit(Class<?> clazz){
     URL classLocationUrl = clazz.getProtectionDomain().getCodeSource().getLocation();
     System.out.println(classLocationUrl.getFile());
-    String command = "javap -c -classpath /Users/ozhurakousky/.m2/repository/org/apache/tez/tez-dag/0.5.0-incubating-SNAPSHOT/tez-dag-0.5.0-incubating-SNAPSHOT.jar " + clazz.getName();
+    String command = "javap -c -classpath /Users/ozhurakousky/.m2/repository/org/apache/tez/tez-dag/0.5.0-SNAPSHOT/tez-dag-0.5.0-SNAPSHOT.jar " + clazz.getName();
     System.out.println(command);
     BufferedReader reader = null;
     try {
