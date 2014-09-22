@@ -31,31 +31,34 @@ public class ByteCodeUtils {
    * @return
    */
   public static boolean hasSystemExit(Class<?> clazz){
-    URL classLocationUrl = clazz.getProtectionDomain().getCodeSource().getLocation();
-    System.out.println(classLocationUrl.getFile());
-    String command = "javap -c -classpath /Users/ozhurakousky/.m2/repository/org/apache/tez/tez-dag/0.5.0-SNAPSHOT/tez-dag-0.5.0-SNAPSHOT.jar " + clazz.getName();
-    System.out.println(command);
-    BufferedReader reader = null;
-    try {
-      Process p = Runtime.getRuntime().exec(command);
-      reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-      String line;
-      while ((line = reader.readLine()) != null){
-        if (line.contains("System.exit")){
-          return true;
-        }
-      }
-    }
-    catch (Exception e) {
-      throw new IllegalStateException("Failed to successfully execute " + command, e);
-    }
-    finally {
-      try {
-        reader.close();
-      } catch (Exception e2) {
-        // ignore
-      }
-    }
-    return false;
+//    URL classLocationUrl = clazz.getProtectionDomain().getCodeSource().getLocation();
+//    System.out.println(classLocationUrl.getFile());
+//    String command = "javap -c -classpath /Users/ozhurakousky/.m2/repository/org/apache/tez/tez-dag/0.5.0-SNAPSHOT/tez-dag-0.5.0-SNAPSHOT.jar " + clazz.getName();
+//    System.out.println(command);
+//    BufferedReader reader = null;
+//    try {
+//      Process p = Runtime.getRuntime().exec(command);
+//      reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//      String line;
+//      while ((line = reader.readLine()) != null){
+//        if (line.contains("System.exit")){
+//          return true;
+//        }
+//      }
+//    }
+//    catch (Exception e) {
+//      throw new IllegalStateException("Failed to successfully execute " + command, e);
+//    }
+//    finally {
+//      try {
+//        reader.close();
+//      } catch (Exception e2) {
+//        // ignore
+//      }
+//    }
+//    return false;
+	  // need to rework the above code, but for now the assumption is that AppMaster contains System.exit 
+	  // (as it typically yet unjustly does in known implementations) 
+	  return true;
   }
 }
