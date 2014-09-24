@@ -191,10 +191,10 @@ public class InJvmContainerExecutor extends DefaultContainerExecutor {
       }
     }
     catch (SystemExitException e) {
-      logger.info("Ignoring System.exit(..) call in " + containerClass.getName());
+      logger.warn("Ignoring System.exit(..) call in " + containerClass.getName());
     }
     if (logger.isInfoEnabled()) {
-      logger.info("Container " + containerClass.getName() + " is finished");
+      logger.warn("Container " + containerClass.getName() + " is finished");
     }
   }
 
